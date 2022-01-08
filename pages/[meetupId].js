@@ -1,48 +1,63 @@
 import React from "react";
 
+import { MongoClient, ObjectId } from "mongodb";
+
 import MeetupDetail from "../components/meetups/MeetupDetail";
 
-function MeetupDetails() {
+function MeetupDetails(props) {
 	return (
 		<MeetupDetail
-			image="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80"
-			title="A First Meetup"
-			address="12 Random Street, Strange city 54312"
-			description="This is the first meetup"
+			image={props.meetupData.image}
+			title={props.meetupData.title}
+			address={props.meetupData.address}
+			description={props.meetupData.description}
 		/>
 	);
 }
 
 export const getStaticPaths = async () => {
+	const client = await MongoClient.connect(
+		"mongodb+srv://Khai:9xx9RDukUkckgKLD@cluster0.fsils.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+	);
+
+	const db = client.db();
+
+	const meetupsCollection = db.collection("meetups");
+
+	const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+
 	return {
 		fallback: false,
-		paths: [
-			{
+		paths: meetups.map((meetup) => {
+			return {
 				params: {
-					meetupId: "m1",
+					meetupId: meetup._id.toString(),
 				},
-			},
-			{
-				params: {
-					meetupId: "m2",
-				},
-			},
-		],
+			};
+		}),
 	};
 };
 
 export const getStaticProps = async (context) => {
 	const id = context.params.meetupId;
 
-	console.log(id);
+	const client = await MongoClient.connect(
+		"mongodb+srv://Khai:9xx9RDukUkckgKLD@cluster0.fsils.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+	);
+
+	const db = client.db();
+
+	const meetupsCollection = db.collection("meetups");
+
+	const meetup = await meetupsCollection.findOne({ _id: ObjectId(id) });
 
 	return {
 		props: {
 			meetupData: {
-				image: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
-				title: "A First Meetup",
-				address: "12 Random Street, Strange city 54312",
-				description: "This is the first meetup",
+				id: meetup._id.toString(),
+				image: meetup.image,
+				title: meetup.title,
+				description: meetup.description,
 			},
 		},
 	};
