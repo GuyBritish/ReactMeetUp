@@ -5,7 +5,7 @@ const handler = async (req, res) => {
 		const data = req.body;
 
 		const client = await MongoClient.connect(
-			"mongodb+srv://Khai:Ireallylikedatabase123@cluster0.fsils.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+			"mongodb+srv://Khai:9xx9RDukUkckgKLD@cluster0.fsils.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 		);
 
 		const db = client.db();
