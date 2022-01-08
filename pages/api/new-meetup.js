@@ -8,6 +8,8 @@ const handler = async (req, res) => {
 			"mongodb+srv://Khai:Ireallylikedatabase123@cluster0.fsils.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 		);
 
+		const db = client.db();
+
 		const meetupsCollection = db.collection("meetups");
 
 		const result = await meetupsCollection.insertOne(data);
