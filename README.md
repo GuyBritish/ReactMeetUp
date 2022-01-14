@@ -1,7 +1,7 @@
 # :busts_in_silhouette: [ReactMeetUp](https://react-meet-up.vercel.app/)
 This is a web application for scheduling and browsing amazing social and professional meetups. 
 
-Created with CSS, ReactJS, Firebase, and MongoDB.
+Created with CSS, ReactJS, NextJS, Firebase, and MongoDB.
 
 ## ⭐ Features
 - Frontend and Backend validation for user accounts and meetups.
