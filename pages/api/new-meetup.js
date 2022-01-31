@@ -1,12 +1,10 @@
 import { MongoClient } from "mongodb";
 
-const handler = async (req, res) => {
+const meetUpHandler = async (req, res) => { // Poorly named
 	if (req.method === "POST") {
-		const data = req.body;
+		const data = req.body; // Data need to be specify to pass into later functions
 
-		const client = await MongoClient.connect(
-			"mongodb+srv://Khai:9xx9RDukUkckgKLD@cluster0.fsils.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-		);
+		const client = await MongoClient.connect(process.env.DATABASE_URL); // Should not show the db url
 
 		const db = client.db();
 
@@ -20,4 +18,4 @@ const handler = async (req, res) => {
 	}
 };
 
-export default handler;
+export default meetUpHandler;
